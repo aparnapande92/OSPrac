@@ -8,7 +8,8 @@
  */
 
 #include "interrupts.h"
-
+#define NETWORK_SIGNAL (SIGUSR1)
+#define CLOCK_SIGNAL (SIGVTALRM) 
 
 /*
  * Set up the interrupt layer by starting the epoll loop.
@@ -41,5 +42,6 @@ extern interrupt_handler_t
 mini_disk_handler;
 
 void send_interrupt(int interrupt_type, interrupt_handler_t handler, void* arg);
+
 
 #endif

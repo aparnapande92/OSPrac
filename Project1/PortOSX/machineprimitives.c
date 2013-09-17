@@ -9,9 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "defs.h"
-#include "minithread.h"
 #include "machineprimitives.h"
-#include <sys/mman.h>
 
 /*
  * Used to initialize a thread's stack for the first context switch
@@ -33,15 +31,6 @@ struct initial_stack_state
   void *r13;
   void *r14;
   void *r15;
-  void *rax;
-  void *rcx;
-  void *rdx;
-#ifdef WINCE
-  int   v5;
-  int   v6;
-  int   sl;
-  int   fp;
-#endif
   void *root_proc;            /* left on stack */
 };
 

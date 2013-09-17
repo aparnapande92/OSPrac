@@ -83,9 +83,6 @@ extern void minithread_initialize_stack(stack_pointer_t *stacktop,
 extern void minithread_switch(stack_pointer_t *old_thread_sp,
 			      stack_pointer_t *new_thread_sp);
 
-extern void minithread_trampoline(proc_t interrupt,
-                  void * arg);
-
 /* SYNCHRONIZATION PRIMITIVES */
 
 /*
@@ -118,6 +115,8 @@ extern int compare_and_swap(int* x, int oldval, int newval);
  *    own virtual time through clock interrupts.
  */
 uint64_t currentTimeMillis();
+
+extern void minithread_trampoline();
 
 
 #endif /*__MINITHREAD_PUBLIC_H_*/

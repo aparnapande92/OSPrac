@@ -1,0 +1,18 @@
+PortOS Educational Operating System
+===================================
+These folders contain the different versions of the PortOS virtualization
+layer, and some stub files which you will need to implement in order to make
+your OS work.  
+
+If you need to make any changes to the Makefile, or you have questions, please
+contact the course staff explaining why before doing so.
+
+We will post project instructions on the course website, so please refer
+to it for the most up to date information.
+
+
+Supported Systems
+=================
+PortOSnix:  Linux x86-64 machines
+PortOSX:    Mac OSX x86-64 machines (10.7)
+PortOSWin:  Windows CE/NT/XP/7,x86/x86-64 machines

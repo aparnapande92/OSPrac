@@ -5,7 +5,7 @@
 CC = gcc 
 
 CFLAGS = -mno-red-zone -fno-omit-frame-pointer -ggdb -O0 -I. -Wdeclaration-after-statement -Wall
-LFLAGS = -lrt -lpthread
+LFLAGS = -rt -pthread
 
 OUTPUT = minithread 
 
@@ -19,9 +19,9 @@ MAIN = test1
 OBJ = \
     minithread.o \
     interrupts.o \
-	machineprimitives.o \
-	machineprimitives_x86_64.o \
 	machineprimitives_x86_64_asm.o \
+	machineprimitives_x86_64.o \
+	machineprimitives.o \
     random.o \
 	queue.o \
 	synch.o \
@@ -43,6 +43,6 @@ clean:
 	rm -f $(OUTPUT)
 
 depend: 
-	gcc -MM *.c > depend
+	gcc -MM *.c 2>/dev/null | sed -e "s/\.o/.obj/" > depend
 
 include depend

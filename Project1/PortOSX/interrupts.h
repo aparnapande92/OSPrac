@@ -1,3 +1,6 @@
+#ifndef __INTERRUPTS_PUBLIC_H_
+#define __INTERRUPTS_PUBLIC_H_
+
 #include "defs.h"
 
 /*
@@ -22,8 +25,7 @@ extern long ticks;
 /*
  * period is the frequency of the clock tick.
  */
-#define MICROSECOND 1000
-#define MILLISECOND (1000*MICROSECOND)
+#define MILLISECOND (1000)
 #define SECOND (1000*MILLISECOND)
 #define PERIOD (50*MILLISECOND)
 
@@ -39,7 +41,7 @@ extern interrupt_level_t interrupt_level;
 #define ENABLED 1
 
 
-typedef void(*interrupt_handler_t)(void*);
+typedef void(*interrupt_handler_t)(void *);
 /*
  * Set the interrupt level to newlevel, return the old interrupt level
  * 
@@ -80,3 +82,4 @@ extern interrupt_level_t set_interrupt_level(interrupt_level_t newlevel);
  */
 extern void minithread_clock_init(interrupt_handler_t h);
 
+#endif  /*__INTERRUPTS_PUBLIC_H_*/
