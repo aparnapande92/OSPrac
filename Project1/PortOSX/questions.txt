@@ -1,0 +1,21 @@
+initialise, queue, current thread, idle thread --- run the idle thread first thing in initialize 
+
+everytime we context switch, reset current thread
+
+
+Do we context switch out of the runnable queue, onto the idle thread
+ 
+Idle thread - does it clean up? and how?
+
+why does freestack not need stack end?
+ how to get final proc args
+
+ final proc, return?
+
+ also, life cycle of the thread, does the thread terminate before final proc is called - to be able to call minithread_self() to put the thread on cleanup queue
+
+ what to do with the kernel thread given to us by windows? idle thread?
+
+Should the idle proc call stop or yield?
+
+Pointer warnings

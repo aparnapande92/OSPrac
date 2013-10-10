@@ -13,6 +13,14 @@
  *	in the comments.  See minithread.c for prototypes.
  */
 
+struct minithread 
+{
+	stack_pointer_t stack_top; 
+	stack_pointer_t stack_base; 
+	int id; 
+	
+
+};
 
 /*
  * struct minithread:

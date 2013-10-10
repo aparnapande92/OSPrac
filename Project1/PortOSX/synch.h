@@ -7,12 +7,10 @@
  *	You must implement the procedures and types defined in this interface.
  */
 
-typedef struct semaphore *semaphore_t;
-
-
 /*
  * Semaphores.
  */
+typedef struct semaphore *semaphore_t;
 
 /*
  * semaphore_t semaphore_create()

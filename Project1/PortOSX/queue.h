@@ -4,6 +4,22 @@
 #ifndef __QUEUE_H__
 #define __QUEUE_H__
 
+struct Node
+{
+	void *data;
+	struct Node *next; 
+};
+
+struct queue 
+{
+	struct Node *head;
+	struct Node *tail;
+	int length; 
+
+};
+
+
+
 /*
  * PFany is a pointer to a function that can take two void* arguments
  * and return an integer.

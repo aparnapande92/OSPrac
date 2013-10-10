@@ -27,7 +27,7 @@
 /* see http://www.math.keio.ac.jp/matumoto/emt.html or email       */
 /* matumoto@math.keio.ac.jp                                        */
 
-#include<stdio.h>
+#include <stdio.h>
 
 /* Period parameters */  
 #define N 624
