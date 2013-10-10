@@ -21,21 +21,24 @@ serial number to stdout.
 // Simple Retail Store application
 
 #include "minithread.h"
-#include "semaphore.h"
+#include "queue.h"
+#include "synch.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 #define N 3
-#define M 5
+#define M 25
 
 int serial = 0;
 semaphore_t sem;
 semaphore_t writesem;
-queue_t q;
+//queue_t q;
 
 int customer(int cust) 
 {
     semaphore_P(sem);
+    //int *x;
+    //queue_dequeue(q, &x);
     printf("Customer %d has serial %d\n", cust, serial);
     return 0;
 }
@@ -45,7 +48,9 @@ int employee(int arg)
     while(1)
     {
         semaphore_V(sem);
-        serial ++;
+        //int *put = serial + 1;
+        serial++;
+        //queue_append(q, &put);
         minithread_yield();
     }
     return 0;
@@ -72,10 +77,10 @@ int main(void)
 {
 	sem = semaphore_create();
 	semaphore_initialize(sem, N);
-  semaphore_initialize(writesem, 1);
-  q = queue_new();
+    //q = queue_new();
 	minithread_system_initialize(retail, NULL);
-	return 0;
+	minithread_yield();
+  return 0;
 }
 
 

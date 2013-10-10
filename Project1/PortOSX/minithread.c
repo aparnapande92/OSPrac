@@ -37,18 +37,6 @@
 
 /* minithread functions */
 
-minithread_t
-minithread_fork(proc_t proc, arg_t arg) 
-{
-	minithread_t new_mt;
-
-	new_mt = minithread_create(proc, arg); 
-    
-	if (queue_append(ready_queue, new_mt) != 0) printf("Error in fork");
-
-    return new_mt;
-}
-
 int
 reaper_proc(arg_t arg)
 { 
@@ -86,17 +74,18 @@ final_proc(arg_t arg)
 	return 0; 
 }
 
-int
-idle_proc(arg_t arg)
+minithread_t
+minithread_fork(proc_t proc, arg_t arg) 
 {
-	while (1) 
-	{
-		printf("In Final proc");
-		minithread_stop();
-	}
+	minithread_t new_mt;
 
-	return 0; 
+	new_mt = minithread_create(proc, arg); 
+    
+	if (queue_append(ready_queue, new_mt) != 0) printf("Error in fork");
+
+    return new_mt;
 }
+
 
 minithread_t
 minithread_create(proc_t proc, arg_t arg) {
@@ -106,12 +95,12 @@ minithread_create(proc_t proc, arg_t arg) {
 	minithread_allocate_stack(&base, &top);
 	
 	mt = (minithread_t) malloc(sizeof(struct minithread));
-	
+
+	minithread_initialize_stack(&top, proc, arg, &final_proc, NULL);
+
 	mt->stack_top = top;
 	mt->stack_base = base; 
 	mt->id = count++; 
-
-	minithread_initialize_stack(&top, proc, arg, &final_proc, NULL);
 
     return mt;
 }
@@ -134,24 +123,25 @@ void
 minithread_stop() {
 	minithread_t mt; 
 	minithread_t thread_to_run; 
+
 	
 	mt = minithread_self(); 
 
 	queue_dequeue(ready_queue, &thread_to_run);
-	printf("%p\n", thread_to_run);
+	
 
 	//If thread is empty switch to idle_thread
 	if (thread_to_run == NULL)
 	{
 		current_thread = idle_thread; 
-		minithread_switch(&(mt->stack_top), &(idle_thread->stack_top)); 
+		minithread_switch(&(mt->stack_top), &(idle_thread->stack_top)); 	
 	}
 	else
 	{
 		current_thread = thread_to_run;
-		printf("&&&%p\n", current_thread);
+		
 		minithread_switch(&(mt->stack_top), &(thread_to_run->stack_top));	
-		printf("****\n");
+		
 	}
 }
 
@@ -166,29 +156,29 @@ minithread_yield() {
 	minithread_t thread_to_run; 
 	
 	mt = minithread_self(); 
-	printf(" %d \n", mt->id );
    
 	queue_dequeue(ready_queue, &thread_to_run);
-	printf(" %d \n", thread_to_run->id );
-	printf(" %p \n", thread_to_run->stack_top );
 
 	//If thread is empty switch to idle_thread
 	if (thread_to_run == NULL)
 	{
-		current_thread = idle_thread; 
-		if (queue_append(ready_queue, mt) != 0) printf("Error in yield");
-		minithread_switch(&(mt->stack_top), &(idle_thread->stack_top)); 
+		if (mt != idle_thread)
+		{
+			current_thread = idle_thread; 
+			if (queue_append(ready_queue, mt) != 0) printf("Error in yield");
+			minithread_switch(&(mt->stack_top), &(idle_thread->stack_top)); 
+		}
 	}
 	else
 	{
 		current_thread = thread_to_run;
         
-		if (queue_append(ready_queue, mt) != 0) 
-
-		printf(" %p \n", mt->stack_top );	
-		printf(" %p \n", thread_to_run->stack_top );	
+		if (queue_append(ready_queue, mt) != 0) printf("error");
+	
 		minithread_switch(&(mt->stack_top), &(thread_to_run->stack_top));	
+		 
 	}
+	return; 
 }
 
 /*
@@ -216,23 +206,25 @@ minithread_system_initialize(proc_t mainproc, arg_t mainarg)
     
 	reaper_thread = minithread_create(&reaper_proc, NULL);
 
-	idle_thread = minithread_create(&idle_proc, NULL); 
+	idle_thread = (minithread_t) malloc(sizeof(struct minithread));
+	
+	idle_thread->stack_top = NULL;
+	idle_thread->stack_base = NULL; 
+	idle_thread->id = count++; 
+
+
 	current_thread = idle_thread; 
 
 	main_thread = minithread_fork(mainproc, mainarg);
 
-	printf ("about to switch...\n");
-	//minithread_switch(&(idle_thread->stack_top), &())
 
-
-	minithread_yield();
-
+	while (1)
+	{
+		minithread_yield();
+	}
 	
 
-
-
-
- 
+	return;  
 
 }
 

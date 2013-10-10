@@ -78,8 +78,9 @@ void semaphore_P(semaphore_t sem)
         // Check pointer stuff!
         minithread_t thr = minithread_self();
         queue_append((sem->waitQ), thr);
-        minithread_stop();
+        
         sem->lock = 0;
+        minithread_stop();
     }
     else
     {

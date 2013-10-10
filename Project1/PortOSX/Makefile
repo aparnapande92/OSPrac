@@ -14,7 +14,7 @@ OUTPUT = minithread
 #
 # Note that you must write your own test programs.
 
-MAIN = test1
+MAIN = test3
 
 OBJ = \
     minithread.o \

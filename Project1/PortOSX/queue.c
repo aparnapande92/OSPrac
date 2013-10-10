@@ -6,6 +6,21 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+struct Node
+{
+	void *data;
+	struct Node *next; 
+};
+
+struct queue 
+{
+	struct Node *head;
+	struct Node *tail;
+	int length; 
+
+};
+
+
 /*
  * Return an empty queue.
  */
@@ -205,7 +220,7 @@ int queue_delete(queue_t queue, void** item) {
 
 		free(curr);
 		queue->length--; 
-		return 1;
+		return 0;
 	}
 
 	//Search queue for item 
@@ -222,12 +237,12 @@ int queue_delete(queue_t queue, void** item) {
 			free(temp); 
 
 			queue->length--; 
-			return 1; 
+			return 0; 
 		} 
 
 		curr = curr->next; 
 	}
 
 	// NOT SURE ON THIS if it should return error if it cannot find Item in queue 
-    return -1;
+    return 0;
 }
