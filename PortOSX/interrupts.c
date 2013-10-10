@@ -1,6 +1,6 @@
-#include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <time.h>
@@ -10,10 +10,11 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <assert.h>
-#include "defs.h"
+#include "network.h"
 #include "interrupts_private.h"
 #include "minithread.h"
 #include "machineprimitives.h"
+#include "random.h"
 
 #define MAXEVENTS 64
 #define MAXBUF 1000
@@ -32,7 +33,7 @@ extern unsigned int end();
 interrupt_level_t interrupt_level;
 
 static pthread_mutex_t signal_mutex;
-extern double genrand();
+
 typedef struct interrupt_t interrupt_t;
 struct interrupt_t {
   interrupt_handler_t handler;
@@ -85,11 +86,11 @@ void gen_random_string(char *s, const int len) {
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     "abcdefghijklmnopqrstuvwxyz";
 
-  for (i = 0; i < len; ++i) {
-    s[i] = alphanum[(long)genrand() % (sizeof(alphanum) - 1)];
+  for (i = 0; i < len - 1; ++i) {
+    s[i] = alphanum[genintrand(sizeof(alphanum) - 1)];
   }
 
-  s[len] = '\0';
+  s[len - 1] = '\0';
 }
 
 /*

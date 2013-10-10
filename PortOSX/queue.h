@@ -4,7 +4,6 @@
 #ifndef __QUEUE_H__
 #define __QUEUE_H__
 
-
 /*
  * PFany is a pointer to a function that can take two void* arguments
  * and return an integer.
